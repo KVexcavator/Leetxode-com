@@ -6,10 +6,13 @@
 # должна вернуть true , потому что «двадесятка» могут быть сегментированы как «два
 # десятка».
 
-s = "двадесятка"
+s = "  дв  аде сятка   "
 dict = ["два", "десятка", "девятка"]
 
 def search_segment (str, arr)
+  # блок подготовки строки
+  str = str.gsub(/\s+/,'') if str.match?(/\s+/)
+
   arr.each_with_index do |w,i|
     # каждый член словаря захватываем, как регвыражение
     re = /#{Regexp.escape(w)}/ 
@@ -21,12 +24,10 @@ def search_segment (str, arr)
         if m.pre_match == ""
           search_segment m.post_match, arr
           arr.shift
-          if i >= 1
-            puts true
-          end 
+          puts true if i>=1
         end 
       rescue SystemStackError
-        puts false 
+        puts "Error!"
       end 
     end
   end

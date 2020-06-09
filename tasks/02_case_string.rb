@@ -16,6 +16,7 @@ end
 puts old_str
 puts new_str
 
-
+# в Ruby есть экзотический метод 
+puts " БаРбамБиа кеРГудУ".swapcase
 
 

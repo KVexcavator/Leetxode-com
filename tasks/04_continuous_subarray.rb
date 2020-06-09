@@ -4,15 +4,33 @@
 # Пример: [-1, -13, -2, 1, -3, 4, -1, 2, 1, -5, 4] должно вернуть [4, -1, 2, 1].
 # Kadane's algoritm
 
-arr = [-1, -13, -2, 1, -3, 4, -1, 2, 1, -5, 4]
+arr1 = [-1, -13, -2, 1, -3, 4, -1, 2, 1, -5, 4]
+arr2 = [-1, -13, -2, 1, -3, 4, -1, 2, 1, -5, 4, -100, 22]
 
 def max_subarray(nums)
-  max_so_far = max_ending_here = -1.0/0
-  nums.each do |x|
-    max_ending_here = [x, max_ending_here + x].max
-    max_so_far = [max_so_far, max_ending_here].max 
+  best_start = best_end = 0
+  best_sum = current_sum = -1.0/0
+  index_start = 0
+  nums.each_with_index do |n, index_end|
+    # для отладки индексов
+    # puts "#{index_end} is #{n}"
+    if current_sum <=n 
+      index_start = index_end 
+      current_sum = n
+    else
+      current_sum +=n 
+    end
+
+    if current_sum > best_sum
+      best_sum = current_sum 
+      best_start = index_start
+      best_end = index_end 
+    end
   end
-  max_so_far 
+  puts "Best sum = #{best_sum}, Best start = #{best_start}, Best end = #{best_end}."
 end
 
-puts max_subarray arr
+p arr1 
+max_subarray arr1
+p arr2
+max_subarray arr2
