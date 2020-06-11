@@ -6,31 +6,43 @@
 # должна вернуть true , потому что «двадесятка» могут быть сегментированы как «два
 # десятка».
 
-s = "  дв  аде сятка   "
-dict = ["два", "десятка", "девятка"]
+s1 = "  дв  аде сятка   "
+dict1 = ["два", "десятка", "девятка"]
+s2 = "alma"
+dict2 = ["al", "m", "oo","l","alm","almaa","maa"]
+s3 = "barbambia"
+dict3 = ["ia", "bar", "bamb"]
+s4 = ""
+dict4 = ["ding", "dong"]
 
-def search_segment (str, arr)
+ 
+def search_segment (str, arr, flag=true)
   # блок подготовки строки
-  str = str.gsub(/\s+/,'') if str.match?(/\s+/)
-
-  arr.each_with_index do |w,i|
-    # каждый член словаря захватываем, как регвыражение
-    re = /#{Regexp.escape(w)}/ 
-    # если есть совпадение в строке запускается рекурсия
-    if re.match?(str)
-      begin 
-        m = re.match(str)
-        # передаётся остаток строки и словоря
-        if m.pre_match == ""
-          search_segment m.post_match, arr
-          arr.shift
-          puts true if i>=1
-        end 
-      rescue SystemStackError
-        puts "Error!"
-      end 
-    end
+  if str.empty? && flag 
+    return false
   end
+  flag = false
+  str = str.gsub(/\s+/,'') if str.match?(/\s+/)
+  # если строка сегментируется по словарю, она станет пустой
+  return true if str.empty?
+  # каждый член словаря захватываем, как регвыражение
+  re = Regexp.new(arr.first)
+  if str.match?(re)
+    arr.shift
+    str.gsub!(re, " ").to_s
+  end  
+  # рекурсия
+  begin 
+    search_segment str, arr, flag
+  rescue SystemStackError
+    return false
+  end 
 end 
 
-search_segment s, dict
+puts search_segment s1, dict1
+puts "- - - - -"
+puts search_segment s2, dict2
+puts "- - - - -"
+puts search_segment s3, dict3
+puts "- - - - -"
+puts search_segment s4, dict4
