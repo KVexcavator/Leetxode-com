@@ -8,4 +8,28 @@ def split_word s
     end
   end.uniq
 end
+def HTMLElements(str)
 
+  # grep all tags
+  o = str.scan(/<\w{1,3}>/)
+    .map {|t| t=t[1...-1]}
+  c = str.scan(/<\/\w{1,3}>/)
+    .map {|t| t=t[2...-1]}
+  b = Hash.new(0)
+  (o+c).each do |v|
+    b[v] += 1
+  end
+  result = []
+  b.each do |k,v|
+    result << k if v.odd?
+  end
+  if result.empty?
+    true
+  else
+    result.first
+  end
+  
+end
+
+# keep this function call here 
+puts HTMLElements(STDIN.gets)
